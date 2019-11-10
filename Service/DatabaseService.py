@@ -13,7 +13,8 @@ class DatabaseService:
         self.conn = psycopg2.connect("dbname='mock-service' host='localhost' user='service' password='service'")
         self.cursor = self.conn.cursor()
 
-    def get_service_name_and_url(self, http_url):
+    @staticmethod
+    def get_service_name_and_url(http_url):
         split = http_url.split('/')
         service_name = split[0]
         split = split[1:]
@@ -22,7 +23,7 @@ class DatabaseService:
 
     def search(self, http_method, http_url):
         print(http_method, http_url)
-        service_name, url = self.get_service_name_and_url(http_url)
+        service_name, url = DatabaseService.get_service_name_and_url(http_url)
         self.cursor.execute(self.SEARCH_SQL, (http_method, url, service_name))
         services = []
         errors = []
