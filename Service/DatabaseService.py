@@ -5,7 +5,7 @@ from domain.Service import Service
 
 
 class DatabaseService:
-    SEARCH_SQL = """SELECT id, name, httpmethod, httpurl, payload, type, httpstatus, mimetype 
+    SEARCH_SQL = """SELECT id, name, httpmethod, httpurl, payload, type, httpstatus, mimetype
         FROM "mock-service".services 
         WHERE httpmethod = %s AND httpurl = %s AND name = %s """
 
@@ -21,10 +21,15 @@ class DatabaseService:
         url = "/".join(split)
         return service_name, url
 
-    def search(self, http_method, http_url):
+    def search(self, http_method, http_url, body):
+        body = str(body.decode('latin-1'))
         print(http_method, http_url)
+        print(body)
         service_name, url = DatabaseService.get_service_name_and_url(http_url)
-        self.cursor.execute(self.SEARCH_SQL, (http_method, url, service_name))
+        if body is not None:
+            self.cursor.execute(self.SEARCH_SQL + "AND body = %s", (http_method, url, service_name, body))
+        else:
+            self.cursor.execute(self.SEARCH_SQL, (http_method, url, service_name))
         services = []
         errors = []
         for row in self.cursor.fetchall():
