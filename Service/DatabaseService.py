@@ -26,7 +26,7 @@ class DatabaseService:
         print(http_method, http_url)
         print(body)
         service_name, url = DatabaseService.get_service_name_and_url(http_url)
-        if body is not None:
+        if body is not None and body != '':
             self.cursor.execute(self.SEARCH_SQL + "AND body = %s", (http_method, url, service_name, body))
         else:
             self.cursor.execute(self.SEARCH_SQL, (http_method, url, service_name))
