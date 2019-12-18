@@ -1,13 +1,13 @@
-CREATE TABLE "mock-service".services
-(
-  id bigint NOT NULL,
-  name character varying(4096),
-  httpmethod character varying(4096),
-  httpurl character varying(4096),
-  payload text,
-  type character varying,
-  httpstatus integer,
-  mimetype character varying,
-  body text,
-  CONSTRAINT services_pkey PRIMARY KEY (id)
-)
+CREATE TABLE "mock-service".services (
+	id int8 NOT NULL,
+	"name" varchar(4096) NULL,
+	httpmethod varchar(4096) NULL,
+	httpurl varchar(4096) NULL,
+	payload bytea NULL,
+	"type" varchar NULL,
+	httpstatus int4 NULL,
+	mimetype varchar NULL,
+	body text NULL,
+	ignorerequestbody bool NULL,
+	CONSTRAINT services_pkey PRIMARY KEY (id)
+);
