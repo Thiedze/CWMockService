@@ -35,7 +35,9 @@ class DatabaseService:
         errors = []
         for row in self.cursor.fetchall():
             if row[5] == 'service':
-                services.append(Service(row[0], row[1], row[2], row[3], bytes(row[4]), row[5], row[6], row[7]))
+                services.append(
+                    Service(row[0], row[1], row[2], row[3], (row[4] if bytes(row[4]) is not None else None), row[5],
+                            row[6], row[7]))
             elif row[5] == 'error':
                 errors.append(Error(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]))
         return services, errors
